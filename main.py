@@ -12,25 +12,20 @@ def calculate_objective(df):
   max_productivity = get_max_productivity() # 8333
   expected_productivity = get_expected_productivity() # 5000
   efficiency = get_efficiency(df, max_productivity) # 4999
-  print(
-    max_productivity,
-expected_productivity,
-efficiency
-  )
   error = expected_productivity - efficiency
+  print(error)
   return error
 
 print(calculate_objective(df))
 # Extract the values from 'x' and 'y' columns
-x_values = df['x'].values
-y_values = df['y'].values
+x_values = df['IR'].values
+y_values = df['Irrig. Scheduling F=10'].values
 
 # Define the objective function and constraints
 def objective_function(x, df):
     calculate_columns(df)
-    # df['y'] = x  # Update 'y' column with the optimization variable
-    # df['z'] = df['y']**2  # Calculate 'z' based on the updated 'y' values
-    objective = df['z'].sum()  # Objective: Sum of 'z'
+    error = calculate_objective(df)
+    # print(error)
     return abs(error)
 
 def constraint(x, x_values, y_values):
@@ -46,14 +41,15 @@ result = minimize(objective_function, initial_guess, args=(df,), constraints={'t
 optimized_y_values = result.x
 
 # Update the DataFrame with the optimized 'y' values and calculate 'z'
-df['y'] = optimized_y_values
-df['z'] = df['y']**2
+df['Irrig. Scheduling F=10'] = optimized_y_values
+calculate_columns(df)
+
 
 # Calculate the optimized objective value
-optimized_objective = df['z'].sum()
+finalError = calculate_objective(df)
 
 # Print the optimized objective value and the updated DataFrame
-print("Optimized Objective Value:", optimized_objective)
+print("Optimized Objective Value:", finalError)
 print(df)
 
 

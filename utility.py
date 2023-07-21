@@ -4,7 +4,7 @@ from math import prod
 
 def get_efficiency(df, max):
     array = df['Raes Method3'].values
-    print(array)
+    # print(array)
     converted = []
     for val in array:
         if val > 0:
@@ -71,7 +71,7 @@ def calculate_columns(df):
 
                                                        2, 'Irrig. Scheduling F=10'].sum()
 
-    print(df)
+    # print(df)
 
     # real_productivity =
 
