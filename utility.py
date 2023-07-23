@@ -49,9 +49,20 @@ def create_dataframe():
     return df
 
 
-def calculate_columns(df):
+# def getFactor(stage):
+#     print('=>', type(stage))
+#     stages = {
+#         "ini": .5,
+#         "dev": .85,
+#         "mid": .6,
+#         "end": .6
+#     }
+#     return stages[stage]
 
-    df['Raes Method1'] = .5 * (df['Irrig. Scheduling F=10'] / df['IR'])
+
+def calculate_columns(df):
+    df['Raes Method1'] = df['progress level'] * \
+        (df['Irrig. Scheduling F=10'] / df['IR'])
 
     df['Raes Method2'] = 1 - df['Raes Method1']
 
@@ -61,15 +72,15 @@ def calculate_columns(df):
 
     df['Irrig. Scheduling F=30'] = None
 
-    for i in range(0, len(df), 3):
+    # for i in range(0, len(df), 3):
 
-        df.loc[i, 'Irrig. Scheduling F=30'] = ''
+    #     df.loc[i, 'Irrig. Scheduling F=30'] = ''
 
-        df.loc[i+2, 'Irrig. Scheduling F=30'] = ''
+    #     df.loc[i+2, 'Irrig. Scheduling F=30'] = ''
 
-        df.loc[i+1, 'Irrig. Scheduling F=30'] = df.loc[i:i +
+    #     df.loc[i+1, 'Irrig. Scheduling F=30'] = df.loc[i:i +
 
-                                                       2, 'Irrig. Scheduling F=10'].sum()
+    #                                                    2, 'Irrig. Scheduling F=10'].sum()
 
     # print(df)
 
