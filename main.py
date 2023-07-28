@@ -4,9 +4,9 @@ from utility import calculate_columns, get_max_productivity, create_dataframe, g
 from scipy.optimize import minimize
 
 df = create_dataframe()
-df['Irrig. Scheduling F=10'] = df['IR']
+df['Irrigation Scheduling'] = df['Irrigation']
 calculate_columns(df)
-
+# print(df)
 def calculate_objective(df):
     product = df['Raes Method3'].product() 
     max = get_max_productivity()
@@ -15,7 +15,7 @@ def calculate_objective(df):
     return objective
 
 def objective_function(x, df):
-    df['Irrig. Scheduling F=10'] = x
+    df['Irrigation Scheduling'] = x
     calculate_columns(df)
     objective = calculate_objective(df)
     return abs(objective) 
@@ -23,17 +23,17 @@ def objective_function(x, df):
 def constraint(x, x_values, y_values):
     return y_values - x_values
 
-result = minimize(objective_function, df['Irrig. Scheduling F=10'].values, args=(df,), constraints={'type': 'ineq', 'fun': constraint, 'args': (df['IR'].values, df['Irrig. Scheduling F=10'].values), }, bounds=[(0, None)])
+result = minimize(objective_function, df['Irrigation Scheduling'].values, args=(df,), constraints={'type': 'ineq', 'fun': constraint, 'args': (df['Irrigation'].values, df['Irrigation Scheduling'].values), }, bounds=[(0, None)])
 
 optimized_y_values = result.x
 
-df['Irrig. Scheduling F=10'] = optimized_y_values
+df['Irrigation Scheduling'] = optimized_y_values
 calculate_columns(df)
 
 optimized_objective = calculate_objective(df)
 
 print("Optimized Objective Value:", optimized_objective)
-print(df['Irrig. Scheduling F=10'].sum())
+print("Total Irrigation Water: ", df['Irrigation Scheduling'].sum())
 
 
 
