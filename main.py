@@ -6,7 +6,7 @@ from scipy.optimize import minimize
 df = create_dataframe()
 df['Irrigation Scheduling'] = df['Irrigation']
 calculate_columns(df)
-
+# print(df)
 def calculate_objective(df):
     product = df['Raes Method3'].product() 
     max = get_max_productivity()
