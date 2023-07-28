@@ -1,8 +1,12 @@
 import pandas as pd
 from math import prod
 
+inputSheet = pd.read_excel('data.xlsx', sheet_name='Input', skiprows=1, nrows=5, usecols="A:B")
+cropHistory = pd.read_excel('data.xlsx', sheet_name='Crop History', skiprows=1, nrows=9, usecols="B:B")
+
 def read_input(cellName):
-    df = pd.read_excel('data.xlsx', sheet_name='Input', skiprows=1, nrows=3, usecols="A:B")
+    global inputSheet
+    df = inputSheet
     df.columns = ['key', 'value']
     key_row = df[df['key'] == cellName]
     
@@ -14,11 +18,24 @@ def read_input(cellName):
 
 
 def get_expected_productivity():
-    return read_input('Expected Crop Yeild')
+    expected = read_input('Expected Crop Yeild')
+    sws = read_input('Soil Water Solidity')
+    age = read_input('Age')
+    if sws and sws > 7:
+        expected = 100 - 3.6 * (expected - 7)
+    if(age):
+        if(age < 3):
+            expected *= .4
+        elif age < 6:
+            expected *= .7
+        elif age < 9:
+            expected *= .9
+    return expected
 
 
 def get_max_productivity():
-    df = pd.read_excel('data.xlsx', sheet_name='Crop History', skiprows=1, nrows=9, usecols="B:B")
+    global cropHistory
+    df = cropHistory
     df.columns = ['Efficiency']
     maxCropEfficiency = df['Efficiency'].max()
     return maxCropEfficiency
