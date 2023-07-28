@@ -41,7 +41,9 @@ def calculate_columns(df):
     jump = cycle / 10
     for i in range(0, len(df)):
         if (i % jump) == 0:
-            df.loc[i, cycle_key] = df.loc[i : i + jump - 1, 'Irrigation Scheduling'].sum()
+            sum = df.loc[i : i + jump - 1, 'Irrigation Scheduling'].sum()
+            capacity = read_input('Field Capacity')
+            df.loc[i, cycle_key] = sum if capacity > sum else capacity 
 
 
 
