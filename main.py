@@ -12,7 +12,7 @@ cropHistory = pd.read_excel(
 
 def get_expected_productivity():
     expected = read_config('EXPECTED_CROP_YEILD')
-    sws = read_config('SOIL_WATER_SOLIITY')
+    sws = read_config('SOIL_WATER_SOLINITY')
     age = read_config('AGE')
     if sws and sws > 7:
         expected = 100 - 3.6 * (expected - 7)
